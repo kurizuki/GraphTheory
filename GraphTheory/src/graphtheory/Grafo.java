@@ -8,13 +8,19 @@ import java.util.ArrayList;
  */
 public class Grafo {
     private int numNodos = 0;
-    private ArrayList<Nodo> listNodo;
+    private ArrayList<Nodo> listNodo = new ArrayList<>();
     
-    public Grafo() {
-        listNodo = new ArrayList<>();
+    public Grafo(int[][] laberinto) {
+        das(laberinto);
+    }
+    
+    private void das(int[][] laberinto) {
+        for (int i = 0; i < 10; i++) {
+            
+        }
     }
 
-    public void setNodo(Nodo nodo) {
+    private void addNodo(Nodo nodo) {
         if (listNodo.add(nodo)) {
             numNodos++;
         } else {

@@ -77,9 +77,22 @@ public class Laberinto {
 
     public void imprimirLaberinto() {
         // □
-        for (int[] fila : laberinto) {
-            for (int celda : fila) {
-                System.out.print(celda == MURO ? "■" : "□");
+        // FILAS 
+        System.out.print("   ");
+        for (int j = 0; j < laberinto.length; j++) {
+            System.out.print(j + ",");                
+        }   
+        System.out.println("");
+        for (int i = 0; i < laberinto.length; i++) {
+            // COLUMNAS
+            if (i < 10) {
+                System.out.print(i + "  ");
+            } else {
+                System.out.print(i + " ");
+            }
+                 
+            for (int j = 0; j < laberinto[i].length; j++) {                
+                System.out.print(laberinto[i][j] == MURO ? "■" : "□");
             }
             System.out.println();
         }
