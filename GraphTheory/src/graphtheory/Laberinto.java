@@ -10,6 +10,7 @@ public class Laberinto {
     private final Random random = new Random();    
     private final int MURO = 1;
     private final int CAMINO = 0;
+    private final int META = 2;
     private int filas;  // Debe ser impar
     private int columnas;  // Debe ser impar
     private int[][] laberinto;
@@ -18,8 +19,17 @@ public class Laberinto {
     }
     
     public Laberinto(int filas, int columnas) {
+        this.filas = filas;
+        this.columnas = columnas;
         this.laberinto = new int[filas][columnas];
         crearLaberinto();
+        
+        // ASIGNAMOS UNA META 
+        asignarMeta();
+    }
+    
+    public int[][] getMatrizLaberinto() {
+        return laberinto;
     }
     
     private void crearLaberinto() {
@@ -74,7 +84,14 @@ public class Laberinto {
             }
         }
     }
+    
+    public void asignarMeta() {
+        int x = random.nextInt(filas -1) + 1;
+        int y = random.nextInt(columnas -1) + 1;
 
+        laberinto[x][y] = META;                
+    }
+     
     public void imprimirLaberinto() {
         // □
         // FILAS 
@@ -91,8 +108,20 @@ public class Laberinto {
                 System.out.print(i + " ");
             }
                  
-            for (int j = 0; j < laberinto[i].length; j++) {                
-                System.out.print(laberinto[i][j] == MURO ? "■" : "□");
+            for (int j = 0; j < laberinto[i].length; j++) {
+                switch (laberinto[i][j]) {
+                    case MURO:
+                        System.out.print("■");
+                        break;
+                    case CAMINO:
+                        System.out.print("□");
+                        break;
+                    case META:
+                        System.out.print("M ");
+                        break;
+                    default:
+                        break;
+                }
             }
             System.out.println();
         }
@@ -105,12 +134,6 @@ public class Laberinto {
             }
             System.out.println();
         }
-    }
-
-    public int[][] getMatrizLaberinto() {
-        return laberinto;
-    }
-    
-    
+    }  
     
 }

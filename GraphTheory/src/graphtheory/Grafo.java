@@ -11,12 +11,16 @@ public class Grafo {
     private ArrayList<Nodo> listNodo = new ArrayList<>();
     
     public Grafo(int[][] laberinto) {
-        das(laberinto);
+        identificacionNodos(laberinto);
     }
     
-    private void das(int[][] laberinto) {
-        for (int i = 0; i < 10; i++) {
-            
+    private void identificacionNodos(int[][] laberinto) {
+        // FILAS
+        for (int i = 1; i < laberinto.length-1; i++) {
+            // COLUMNAS
+            for (int j = 1; j < laberinto[i].length-1; j++) {
+                
+            }
         }
     }
 
