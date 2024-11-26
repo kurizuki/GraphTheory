@@ -13,6 +13,8 @@ public class Nodo {
     // PROPIEDADES DE LO QUE CONTENDRA EL NODO
     private int posicionX;
     private int posicionY;
+    private boolean entrada = false;
+    private boolean salida = false;
 
     public Nodo() {
     }
@@ -33,8 +35,16 @@ public class Nodo {
 
     public int getPosicionY() {
         return posicionY;
-    }       
-    
+    }
+
+    public void setEntrada(boolean entrada) {
+        this.entrada = entrada;
+    }
+
+    public void setSalida(boolean salida) {
+        this.salida = salida;
+    }
+
     public boolean addArco(Arco arco) {
         for (int i = 0; i < listArco.size(); i++) {
             if (listArco.get(i).getNodoID() == arco.getNodoID()) {
@@ -43,4 +53,5 @@ public class Nodo {
         }
         return listArco.add(arco);
     }
+    
 }

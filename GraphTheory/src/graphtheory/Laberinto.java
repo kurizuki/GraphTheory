@@ -14,6 +14,10 @@ public class Laberinto {
     private int filas;  // Debe ser impar
     private int columnas;  // Debe ser impar
     private int[][] laberinto;
+    
+    // Comenzar desde una posición inicial
+    private int inicioX = 0;
+    private int inicioY = 0;
 
     public Laberinto() {
     }
@@ -31,7 +35,15 @@ public class Laberinto {
     public int[][] getMatrizLaberinto() {
         return laberinto;
     }
-    
+
+    public int getInicioX() {
+        return inicioX;
+    }
+
+    public int getInicioY() {
+        return inicioY;
+    }
+
     private void crearLaberinto() {
         // Inicializar el laberinto con muros
         for (int i = 0; i < laberinto.length; i++) {
@@ -39,10 +51,7 @@ public class Laberinto {
                 laberinto[i][j] = MURO;
             }
         }
-
-        // Comenzar desde una posición inicial
-        int inicioX = 1;
-        int inicioY = 1;
+        
         laberinto[inicioX][inicioY] = CAMINO;
 
         // Generar el laberinto
@@ -72,7 +81,7 @@ public class Laberinto {
             int nuevoY = y + dir[1];
 
             // Verificar si la nueva posición está dentro de los límites
-            if (nuevoX > 0 && nuevoX < laberinto.length - 1 && nuevoY > 0 && nuevoY < laberinto[0].length - 1) {
+            if (nuevoX >= 0 && nuevoX < laberinto.length  && nuevoY >= 0 && nuevoY < laberinto[0].length ) {
                 if (laberinto[nuevoX][nuevoY] == MURO) {
                     // Crear un camino entre la posición actual y la nueva posición
                     laberinto[x + dir[0] / 2][y + dir[1] / 2] = CAMINO;
@@ -109,6 +118,7 @@ public class Laberinto {
             }
                  
             for (int j = 0; j < laberinto[i].length; j++) {
+                //█
                 switch (laberinto[i][j]) {
                     case MURO:
                         System.out.print("■");
