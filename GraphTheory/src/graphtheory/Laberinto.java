@@ -18,6 +18,9 @@ public class Laberinto {
     // Comenzar desde una posición inicial
     private int inicioX = 0;
     private int inicioY = 0;
+    
+    private int metaX;
+    private int metaY;
 
     public Laberinto() {
     }
@@ -31,8 +34,8 @@ public class Laberinto {
         // ASIGNAMOS UNA META 
         asignarMeta();
     }
-    
-    public int[][] getMatrizLaberinto() {
+
+    public int[][] getLaberinto() {
         return laberinto;
     }
 
@@ -44,6 +47,14 @@ public class Laberinto {
         return inicioY;
     }
 
+    public int getMetaX() {
+        return metaX;
+    }
+
+    public int getMetaY() {
+        return metaY;
+    }
+    
     private void crearLaberinto() {
         // Inicializar el laberinto con muros
         for (int i = 0; i < laberinto.length; i++) {
@@ -95,10 +106,10 @@ public class Laberinto {
     }
     
     public void asignarMeta() {
-        int x = random.nextInt(filas -1) + 1;
-        int y = random.nextInt(columnas -1) + 1;
+        metaX = random.nextInt(filas -1) + 1;
+        metaY = random.nextInt(columnas -1) + 1;
 
-        laberinto[x][y] = META;                
+        laberinto[metaX][metaY] = META;                
     }
      
     public void imprimirLaberinto() {

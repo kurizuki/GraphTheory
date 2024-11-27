@@ -11,6 +11,8 @@ public class NewMain {
         
         laberinto.imprimirLaberinto();
         
+        grafo.imprimirListNodos();
+        
         
         
         
