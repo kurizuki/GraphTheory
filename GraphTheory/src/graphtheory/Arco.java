@@ -6,22 +6,23 @@ package graphtheory;
  */
 public class Arco {
     private float peso;
-    private int nodoID;
+    private Nodo nodo;
 
     public Arco() {
     }
 
-    public Arco(float peso, int nodoID) {
+    public Arco(Nodo nodo) {
+        this.peso = 1;
+        this.nodo = nodo;
+    }
+    
+    public Arco(float peso, Nodo nodo) {
         this.peso = peso;
-        this.nodoID = nodoID;
+        this.nodo = nodo;
     }
 
     public float getPeso() {
         return peso;
-    }
-
-    public int getNodoID() {
-        return nodoID;
     }
   
 }
