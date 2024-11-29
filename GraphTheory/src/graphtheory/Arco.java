@@ -24,5 +24,9 @@ public class Arco {
     public float getPeso() {
         return peso;
     }
-  
+
+    public Nodo getNodo() {
+        return nodo;
+    }
+
 }

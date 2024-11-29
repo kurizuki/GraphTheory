@@ -12,8 +12,7 @@ public class Grafo {
     private int[][] matrizAdyacencia;
    
     // ELEMENTOS A CODIFICAR
-    Laberinto laberintoObject;
-    int[][] laberinto;
+    int[][] matriz;
     
     // MEDICIONES
     int numIteraciones=0;
@@ -22,19 +21,21 @@ public class Grafo {
     public Grafo() {
     }
 
-     public Grafo(Laberinto laberinto) {
-        this.laberintoObject = laberinto;
-        this.laberinto = laberinto.getLaberinto();
-
-        crearGrafo(laberinto.getInicioX(), laberinto.getInicioY());              
+    public Grafo(int[][] matriz) {
+        this.matriz = matriz;
+        crearGrafo(1, 1); 
     }
-    
+
+    public int[][] getMatrizAdyacencia() {
+        return matrizAdyacencia;
+    }
+
     private void crearGrafo(int inicioX, int inicioY) {
         Nodo nodoInicial = new Nodo(listNodo.size(), inicioX, inicioY);
         listNodo.add(nodoInicial);
         
         mapearNodos();
-        addArcos();
+        calcularMatrizAdyacencia();
     }
     
     private void mapearNodos() {               
@@ -44,141 +45,114 @@ public class Grafo {
         } 
     }
     
-    private void addArcos() {
-        for (Nodo nodo : listNodo) {
-            
-            for (int i = 0; i < buscarNodosAdyacentes(nodo).size(); i++) {
-                nodo.addArco(new Arco());
-            }
-        }
-    }
-    
-    private ArrayList<Nodo> buscarNodosAdyacentes(Nodo nodo) {
-        ArrayList<Nodo> listNodo = new ArrayList<>();
-        
-        int posicionX = nodo.getPosicionX();
-        int posicionY = nodo.getPosicionY();
-        
-        // MOVERSE ARRIBA
-        for (int i = posicionY+1; i < laberinto.length && laberinto[i][posicionX] == 0; i++) {
-            if (isNodo(posicionX, i)) {                
-                listNodo.add(listNodo.get(getPosicionNodo(posicionX, posicionY)));
-            }
-        }
-        
-        // MOVERSE ABAJO
-        for (int i = posicionY-1; i >= 0 && laberinto[i][posicionX] == 0; i--) {
-            if (isNodo(posicionX, i)) {                
-                listNodo.add(listNodo.get(getPosicionNodo(posicionX, posicionY)));
-            }
-        }
-        
-        // MOVERSE DERECHA
-        for (int i = posicionX; i < laberinto[posicionY].length && laberinto[posicionY][i] == 0; i++) {
-            if (isNodo(posicionX, i)) {                
-                listNodo.add(listNodo.get(getPosicionNodo(posicionX, posicionY)));
-            }
-        }
-        
-        // MOVERSE IZQUIERDA
-        for (int i = posicionX; i >= 0 && laberinto[posicionY][i] == 0; i--) {
-            if (isNodo(posicionX, i)) {                
-                listNodo.add(listNodo.get(getPosicionNodo(posicionX, posicionY)));
-            }
-        } 
-        return listNodo;
-    }
-    
     private void mapearNodosAdyacentes(Nodo nodo) {
         int posicionX = nodo.getPosicionX();
         int posicionY = nodo.getPosicionY();
         
         // MOVERSE ARRIBA
-        for (int i = posicionY; i < laberinto.length && laberinto[i][posicionX] == 0; i++) {
+        for (int i = posicionY; i < matriz.length && matriz[i][posicionX] == 0; i++) {
             // VALIDAR SI EN LA DERECHA HAY UN ESPACIO EN BLANCO
-            if (posicionX+1 < laberinto[i].length && laberinto[i][posicionX+1] == 0) {
-                addNodo(posicionX,i);
+            if (posicionX+1 < matriz[i].length && matriz[i][posicionX+1] == 0) {
+                if (addNodo(posicionX,i)) {
+                    nodo.addArco(new Arco(listNodo.getLast()));
+                    listNodo.get(listNodo.size()-1).addArco(new Arco(nodo));
+                }                                
                 continue;
             }
             // VALIDAR SI EN LA IZQUIERDA HAY UN ESPACIO EN BLANCO
-            if (posicionX-1 >= 0 && laberinto[i][posicionX-1] == 0) {
-                addNodo(posicionX,i);
+            if (posicionX-1 >= 0 && matriz[i][posicionX-1] == 0) {
+                if (addNodo(posicionX,i)) {
+                    nodo.addArco(new Arco(listNodo.getLast()));
+                    listNodo.get(listNodo.size()-1).addArco(new Arco(nodo));
+                } 
                 continue;
             }
-            if (i+1 < laberinto.length && laberinto[i+1][posicionX] == 1) {
-                addNodo(posicionX,i);
+            if (i+1 < matriz.length && matriz[i+1][posicionX] == 1) {
+                if (addNodo(posicionX,i)) {
+                    nodo.addArco(new Arco(listNodo.getLast()));
+                    listNodo.get(listNodo.size()-1).addArco(new Arco(nodo));
+                } 
             }
         }
         
         // MOVERSE ABAJO
-        for (int i = posicionY; i >= 0 && laberinto[i][posicionX] == 0; i--) {
+        for (int i = posicionY; i >= 0 && matriz[i][posicionX] == 0; i--) {
             // VALIDAR SI EN LA DERECHA HAY UN ESPACIO EN BLANCO
-            if (posicionX+1 < laberinto[i].length && laberinto[i][posicionX+1] == 0) {
-                addNodo(posicionX,i);
+            if (posicionX+1 < matriz[i].length && matriz[i][posicionX+1] == 0) {
+                if (addNodo(posicionX,i)) {
+                    nodo.addArco(new Arco(listNodo.getLast()));
+                    listNodo.get(listNodo.size()-1).addArco(new Arco(nodo));
+                } 
                 continue;
             }
             // VALIDAR SI EN LA IZQUIERDA HAY UN ESPACIO EN BLANCO
-            if (posicionX-1 >= 0 && laberinto[i][posicionX-1] == 0) {
-                addNodo(posicionX,i);
+            if (posicionX-1 >= 0 && matriz[i][posicionX-1] == 0) {
+                if (addNodo(posicionX,i)) {
+                    nodo.addArco(new Arco(listNodo.getLast()));
+                    listNodo.get(listNodo.size()-1).addArco(new Arco(nodo));
+                } 
                 continue;
             }
-            if (i-1 >= 0 && laberinto[i-1][posicionX] == 1) {
-                addNodo(posicionX,i);
+            if (i-1 >= 0 && matriz[i-1][posicionX] == 1) {
+                if (addNodo(posicionX,i)) {
+                    nodo.addArco(new Arco(listNodo.getLast()));
+                    listNodo.get(listNodo.size()-1).addArco(new Arco(nodo));
+                } 
             }
         }
         
         // MOVERSE DERECHA
-        for (int i = posicionX; i < laberinto[posicionY].length && laberinto[posicionY][i] == 0; i++) {
+        for (int i = posicionX; i < matriz[posicionY].length && matriz[posicionY][i] == 0; i++) {
             // VALIDAR SI ARRIBA HAY UN ESPACIO EN BLANCO
-            if (posicionY + 1 < laberinto.length && laberinto[posicionY + 1][i] == 0) {
-                addNodo(i, posicionY);
+            if (posicionY + 1 < matriz.length && matriz[posicionY + 1][i] == 0) {
+                if (addNodo(i, posicionY)) {
+                    nodo.addArco(new Arco(listNodo.getLast()));
+                    listNodo.get(listNodo.size()-1).addArco(new Arco(nodo));
+                }                 
                 continue;
             }
             // VALIDAR SI ABAJO HAY UN ESPACIO EN BLANCO
-            if (posicionY - 1 >= 0 && laberinto[posicionY - 1][i] == 0) {
-                addNodo(i, posicionY); 
+            if (posicionY - 1 >= 0 && matriz[posicionY - 1][i] == 0) {
+                if (addNodo(i, posicionY)) {
+                    nodo.addArco(new Arco(listNodo.getLast()));
+                    listNodo.get(listNodo.size()-1).addArco(new Arco(nodo));
+                }  
                 continue;
             }
-            if (i + 1 < laberinto[posicionY].length && laberinto[posicionY][i + 1] == 1) {
-                addNodo(i, posicionY);
+            if (i + 1 < matriz[posicionY].length && matriz[posicionY][i + 1] == 1) {
+                if (addNodo(i, posicionY)) {
+                    nodo.addArco(new Arco(listNodo.getLast()));
+                    listNodo.get(listNodo.size()-1).addArco(new Arco(nodo));
+                }  
             }
         }
         
         // MOVERSE IZQUIERDA
-        for (int i = posicionX; i >= 0 && laberinto[posicionY][i] == 0; i--) {
+        for (int i = posicionX; i >= 0 && matriz[posicionY][i] == 0; i--) {
             // VALIDAR SI ARRIBA HAY UN ESPACIO EN BLANCO
-            if (posicionY+1 < laberinto.length && laberinto[posicionY+1][i] == 0) {
-                addNodo(i,posicionY);
+            if (posicionY+1 < matriz.length && matriz[posicionY+1][i] == 0) {
+                if (addNodo(i, posicionY)) {
+                    nodo.addArco(new Arco(listNodo.getLast()));
+                    listNodo.get(listNodo.size()-1).addArco(new Arco(nodo));
+                }  
                 continue;
             }
             // VALIDAR SI ABAJO HAY UN ESPACIO EN BLANCO
-            if (posicionY-1 >= 0 && laberinto[posicionY-1][i] == 0) {
-                addNodo(i,posicionY);
+            if (posicionY-1 >= 0 && matriz[posicionY-1][i] == 0) {
+                if (addNodo(i, posicionY)) {
+                    nodo.addArco(new Arco(listNodo.getLast()));
+                    listNodo.get(listNodo.size()-1).addArco(new Arco(nodo));
+                }  
                 continue;
             }
-            if (i-1 >= 0 && laberinto[posicionY][i-1] == 1) {
-                addNodo(i,posicionY);
+            if (i-1 >= 0 && matriz[posicionY][i-1] == 1) {
+                if (addNodo(i, posicionY)) {
+                    nodo.addArco(new Arco(listNodo.getLast()));
+                    listNodo.get(listNodo.size()-1).addArco(new Arco(nodo));
+                }  
             }
         }        
     }    
-    
-    private boolean isNodo(int posicionX, int posicionY) {
-        for (Nodo nodo : listNodo) {
-            if (nodo.getPosicionX() == posicionX && nodo.getPosicionY() == posicionY) {
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    private int getPosicionNodo(int posicionX, int posicionY) {
-        for (int i = 0; i < listNodo.size(); i++) {
-            if (listNodo.get(i).getPosicionX() == posicionX && listNodo.get(i).getPosicionY() == posicionY) {
-                return i;
-            }            
-        }
-        return -1;
-    }
     
     private boolean addNodo(int posicionX, int posicionY) {
         for (int i = 0; i < listNodo.size(); i++) {            
@@ -190,21 +164,31 @@ public class Grafo {
         return listNodo.add(new Nodo(listNodo.size(), posicionX, posicionY));
     }
  
-    public void getMatrizAdyacencia() {
+    private void calcularMatrizAdyacencia() {
+        matrizAdyacencia = new int[listNodo.size()][listNodo.size()];
         
+        for (Nodo nodo : listNodo) {
+            int id = nodo.getNodoID();
+            ArrayList<Arco> listArco = nodo.getListArco();
+            for (int i = 0; i < listArco.size(); i++) {
+                matrizAdyacencia[id][listArco.get(i).getNodo().getNodoID()] = 1;
+            }            
+        }
     }
     
     public void imprimirListNodos() {
-        System.out.println();
+        System.out.println("___________________________");
         System.out.println("LISTA DE NODOS");   
         System.out.println();
         for (Nodo nodo : listNodo) {
-        System.out.printf("%-4s %-8s", "X:" + nodo.getPosicionX(), "Y:" + nodo.getPosicionY());
-        System.out.print(" | ");
-            
-            if (nodo.getNodoID()%3==0) {
-                System.out.println();
-            }            
+            System.out.print(nodo.getNodoID() + " ");
+            System.out.printf("%-4s %-8s", "X:" + nodo.getPosicionX(), "Y:" + nodo.getPosicionY());
+            System.out.print("GRADOS: "  + nodo.getListArco().size());
+            System.out.print(" | ");
+
+                if (nodo.getNodoID()%3==0) {
+                    System.out.println();
+                }            
         }
         System.out.println();
         System.out.println();

@@ -4,11 +4,15 @@ package graphtheory;
  *
  * @author L
  */
-public class NewMain {
-    public static void main(String[] args) {        
-        Laberinto laberinto = new Laberinto(13,13);
-        laberinto.imprimirLaberinto();
-        Grafo grafo = new Grafo(laberinto.getLaberinto());       
+public class NewMain1 {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        Calles calles = new Calles(100,100);
+        calles.getMapa();
+        Grafo grafo = new Grafo(calles.getMapa());       
         
         
         grafo.imprimirListNodos();    
@@ -22,12 +26,11 @@ public class NewMain {
                 if (i != j) {
                     System.out.print(matrizAdyacencia[i][j] + " ");
                 } else {
-                    System.out.print("□ "); 
+                    System.out.print("  "); 
                 }
             }
             System.out.println(); 
         }
-
     }
     
 }

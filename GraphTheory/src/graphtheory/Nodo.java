@@ -33,10 +33,14 @@ public class Nodo {
 
     public int getPosicionY() {
         return posicionY;
-    }   
+    }  
+
+    public ArrayList<Arco> getListArco() {
+        return listArco;
+    }
 
     public boolean addArco(Arco arco) {        
         return listArco.add(arco);
     }
-    
+
 }
