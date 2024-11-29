@@ -16,8 +16,8 @@ public class Laberinto {
     private int[][] laberinto;
     
     // Comenzar desde una posición inicial
-    private int inicioX = 0;
-    private int inicioY = 0;
+    private int inicioX = 1;
+    private int inicioY = 1;
     
     private int metaX;
     private int metaY;
@@ -92,7 +92,7 @@ public class Laberinto {
             int nuevoY = y + dir[1];
 
             // Verificar si la nueva posición está dentro de los límites
-            if (nuevoX >= 0 && nuevoX < laberinto.length  && nuevoY >= 0 && nuevoY < laberinto[0].length ) {
+            if (nuevoX > 0 && nuevoX < laberinto.length  && nuevoY > 0 && nuevoY < laberinto[0].length ) {
                 if (laberinto[nuevoX][nuevoY] == MURO) {
                     // Crear un camino entre la posición actual y la nueva posición
                     laberinto[x + dir[0] / 2][y + dir[1] / 2] = CAMINO;
@@ -106,20 +106,15 @@ public class Laberinto {
     }
     
     public void asignarMeta() {
-        metaX = random.nextInt(filas -1) + 1;
-        metaY = random.nextInt(columnas -1) + 1;
+        metaX = random.nextInt(filas -2) + 1;
+        metaY = random.nextInt(columnas -2) + 1;
 
-        laberinto[metaX][metaY] = META;                
+        laberinto[metaX][metaY] = 0;                
     }
      
     public void imprimirLaberinto() {
         // □
         // FILAS 
-        System.out.print("   ");
-        for (int j = 0; j < laberinto.length; j++) {
-            System.out.print(j + ",");                
-        }   
-        System.out.println("");
         for (int i = 0; i < laberinto.length; i++) {
             // COLUMNAS
             if (i < 10) {
@@ -132,10 +127,10 @@ public class Laberinto {
                 //█
                 switch (laberinto[i][j]) {
                     case MURO:
-                        System.out.print("■");
+                        System.out.print("■" + j);
                         break;
                     case CAMINO:
-                        System.out.print("□");
+                        System.out.print("□" + j);
                         break;
                     case META:
                         System.out.print("M ");
@@ -149,11 +144,10 @@ public class Laberinto {
     }
     
     public void imprimirMatriz() {
-        for (int[] fila : laberinto) {
-            for (int celda : fila) {
-                System.out.print(celda == MURO ? "1" : "0");
+        for (int i = 0; i < laberinto.length; i++) {
+            for (int j = 0; j < laberinto[i].length; j++) {
+                System.out.println(laberinto[i][j]);
             }
-            System.out.println();
         }
     }  
     

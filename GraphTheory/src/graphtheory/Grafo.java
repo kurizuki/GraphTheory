@@ -11,13 +11,19 @@ public class Grafo {
     
     
     // ELEMENTOS A CODIFICAR
-    Laberinto laberinto;
+    Laberinto laberintoObject;
+    int[][] laberinto;
+    
+    // MEDICIONES
+    int numIteraciones=0;
     
     public Grafo() {
     }
 
-    public Grafo(Laberinto laberinto) {
-        this.laberinto = laberinto;
+     public Grafo(Laberinto laberinto) {
+        this.laberintoObject = laberinto;
+        this.laberinto = laberinto.getLaberinto();
+
         crearGrafo(laberinto.getInicioX(), laberinto.getInicioY());              
     }
     
@@ -25,77 +31,96 @@ public class Grafo {
         Nodo nodoInicial = new Nodo(listNodo.size(), inicioX, inicioY);
         listNodo.add(nodoInicial);
         
-        Nodo nodoFinal = new Nodo(listNodo.size(), laberinto.getMetaX(), laberinto.getMetaY());      
-        listNodo.add(nodoFinal);
-        
-        recorrerLaberinto();
+        mapearNodos();
     }
     
-    public void recorrerLaberinto() {
-        int[][] laberinto = this.laberinto.getLaberinto();
-        // FILAS
-        for (int i = 0; i < laberinto.length; i++) {
-            // COLUMNAS
-            for (int j = 0; j < laberinto[i].length; j++) {
-                if (laberinto[i][j] == 0) {
-                    if (isNodo(i, j)) {
-                        listNodo.add(new Nodo(listNodo.size(), i, j));
-                    }
-                }                
+    private void mapearNodos() {               
+        for (int i = 0; i < listNodo.size(); i++) {
+            numIteraciones++;
+            buscarNodosAdyacentes(listNodo.get(i));
+        } 
+    }
+    
+    private void buscarNodosAdyacentes(Nodo nodo) {
+        int posicionX = nodo.getPosicionX();
+        int posicionY = nodo.getPosicionY();
+        
+        // MOVERSE ARRIBA
+        for (int i = posicionY; i < laberinto.length && laberinto[i][posicionX] == 0; i++) {
+            // VALIDAR SI EN LA DERECHA HAY UN ESPACIO EN BLANCO
+            if (posicionX+1 < laberinto[i].length && laberinto[i][posicionX+1] == 0) {
+                addNodo(posicionX,i);
+                continue;
+            }
+            // VALIDAR SI EN LA IZQUIERDA HAY UN ESPACIO EN BLANCO
+            if (posicionX-1 >= 0 && laberinto[i][posicionX-1] == 0) {
+                addNodo(posicionX,i);
+                continue;
+            }
+            if (i+1 < laberinto.length && laberinto[i+1][posicionX] == 1) {
+                addNodo(posicionX,i);
             }
         }
-    }
-
-    public boolean isNodo(int posicionX, int posicionY) {
-        int[][] laberinto = this.laberinto.getLaberinto();
-        int arriba, derecha, abajo, izquierda;
-
-        // Intentar obtener el valor de arriba
-        try {
-            arriba = laberinto[posicionX][posicionY + 1];
-        } catch (Exception e) {
-            arriba = 1; // Si ocurre una excepción, asigna una pared
-        }
-
-        // Intentar obtener el valor de derecha
-        try {
-            derecha = laberinto[posicionX + 1][posicionY];
-        } catch (Exception e) {
-            derecha = 1; // Si ocurre una excepción, asigna una pared
-        }
-
-        // Intentar obtener el valor de abajo
-        try {
-            abajo = laberinto[posicionX][posicionY - 1];
-        } catch (Exception e) {
-            abajo = 1; // Si ocurre una excepción, asigna una pared
-        }
-
-        // Intentar obtener el valor de izquierda
-        try {
-            izquierda = laberinto[posicionX - 1][posicionY];
-        } catch (Exception e) {
-            izquierda = 1; // Si ocurre una excepción, asigna una pared
+        
+        // MOVERSE ABAJO
+        for (int i = posicionY; i >= 0 && laberinto[i][posicionX] == 0; i--) {
+            // VALIDAR SI EN LA DERECHA HAY UN ESPACIO EN BLANCO
+            if (posicionX+1 < laberinto[i].length && laberinto[i][posicionX+1] == 0) {
+                addNodo(posicionX,i);
+                continue;
+            }
+            // VALIDAR SI EN LA IZQUIERDA HAY UN ESPACIO EN BLANCO
+            if (posicionX-1 >= 0 && laberinto[i][posicionX-1] == 0) {
+                addNodo(posicionX,i);
+                continue;
+            }
+            if (i-1 >= 0 && laberinto[i-1][posicionX] == 1) {
+                addNodo(posicionX,i);
+            }
         }
         
-        int numArcos = 0;
-        if (arriba == 0) {
-            numArcos++;
-        } 
-        if (derecha == 0) {
-            numArcos++;
-        } 
-        if (abajo == 0) {
-            numArcos++;
-        } 
-        if (izquierda == 0) {
-            numArcos++;
+        // MOVERSE DERECHA
+        for (int i = posicionX; i < laberinto[posicionY].length && laberinto[posicionY][i] == 0; i++) {
+            // VALIDAR SI ARRIBA HAY UN ESPACIO EN BLANCO
+            if (posicionY + 1 < laberinto.length && laberinto[posicionY + 1][i] == 0) {
+                addNodo(i, posicionY);
+                continue;
+            }
+            // VALIDAR SI ABAJO HAY UN ESPACIO EN BLANCO
+            if (posicionY - 1 >= 0 && laberinto[posicionY - 1][i] == 0) {
+                addNodo(i, posicionY); 
+                continue;
+            }
+            if (i + 1 < laberinto[posicionY].length && laberinto[posicionY][i + 1] == 1) {
+                addNodo(i, posicionY);
+            }
         }
         
-        if (numArcos > 2) {
-            return true;
-        }
-        return false;
+        // MOVERSE IZQUIERDA
+        for (int i = posicionX; i >= 0 && laberinto[posicionY][i] == 0; i--) {
+            // VALIDAR SI ARRIBA HAY UN ESPACIO EN BLANCO
+            if (posicionY+1 < laberinto.length && laberinto[posicionY+1][i] == 0) {
+                addNodo(i,posicionY);
+                continue;
+            }
+            // VALIDAR SI ABAJO HAY UN ESPACIO EN BLANCO
+            if (posicionY-1 >= 0 && laberinto[posicionY-1][i] == 0) {
+                addNodo(i,posicionY);
+                continue;
+            }
+            if (i-1 >= 0 && laberinto[posicionY][i-1] == 1) {
+                addNodo(i,posicionY);
+            }
+        }        
+    }    
+    
+    private boolean addNodo(int posicionX, int posicionY) {
+        for (int i = 0; i < listNodo.size(); i++) {            
+            if (listNodo.get(i).getPosicionX() == posicionX && listNodo.get(i).getPosicionY() == posicionY) {
+                return false;
+            }
+        }   
+        return listNodo.add(new Nodo(listNodo.size(), posicionX, posicionY));
     }
  
     public void getMatrizAdyacencia() {
@@ -103,9 +128,19 @@ public class Grafo {
     }
     
     public void imprimirListNodos() {
+        System.out.println("");
+        System.out.println("LISTA DE NODOS");        
         for (Nodo nodo : listNodo) {
-            System.out.println(nodo.getPosicionX() + "   " +nodo.getPosicionY());
+        System.out.printf("%-4s %-8s", "X:" + nodo.getPosicionX(), "Y:" + nodo.getPosicionY());
+        System.out.print(" | ");
+            
+            if (nodo.getNodoID()%3==0) {
+                System.out.println();
+            }            
         }
+        System.out.println("");
+        System.out.println("NODOS MAPEADOS: "+listNodo.size());
+        System.out.println("ITERACIONES NECESARIAS: " + numIteraciones );
     }
     
 }

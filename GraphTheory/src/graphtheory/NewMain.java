@@ -6,19 +6,12 @@ package graphtheory;
  */
 public class NewMain {
     public static void main(String[] args) {        
-        Laberinto laberinto = new Laberinto(21,21);
-        Grafo grafo = new Grafo(laberinto);
-        
+        Laberinto laberinto = new Laberinto(13,13);
         laberinto.imprimirLaberinto();
-        
-        grafo.imprimirListNodos();
-        
+        Grafo grafo = new Grafo(laberinto);       
         
         
-        
-        
-        
-        
+        grafo.imprimirListNodos();          
     }
     
 }
