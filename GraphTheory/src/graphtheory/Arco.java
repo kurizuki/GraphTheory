@@ -16,7 +16,7 @@ public class Arco {
         this.nodo = nodo;
     }
     
-    public Arco(float peso, Nodo nodo) {
+    public Arco(Nodo nodo, float peso) {
         this.peso = peso;
         this.nodo = nodo;
     }

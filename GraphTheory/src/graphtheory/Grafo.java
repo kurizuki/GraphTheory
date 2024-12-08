@@ -30,6 +30,10 @@ public class Grafo {
         return matrizAdyacencia;
     }
 
+    public ArrayList<Nodo> getListNodo() {
+        return listNodo;
+    }
+
     private void crearGrafo(int inicioX, int inicioY) {
         Nodo nodoInicial = new Nodo(listNodo.size(), inicioX, inicioY);
         listNodo.add(nodoInicial);
@@ -61,8 +65,8 @@ public class Grafo {
             }
             
             if (addNodo(posicionX,i)) {
-                nodo.addArco(new Arco(listNodo.getLast()));
-                listNodo.get(listNodo.size()-1).addArco(new Arco(nodo));
+                nodo.addArco(new Arco(listNodo.getLast(), i - posicionY));
+                listNodo.get(listNodo.size()-1).addArco(new Arco(nodo, i - posicionY));
             } 
         }
         
@@ -78,8 +82,8 @@ public class Grafo {
             }
             
             if (addNodo(posicionX,i)) {
-                nodo.addArco(new Arco(listNodo.getLast()));
-                listNodo.get(listNodo.size()-1).addArco(new Arco(nodo));
+                nodo.addArco(new Arco(listNodo.getLast(), posicionY - i));
+                listNodo.get(listNodo.size()-1).addArco(new Arco(nodo, posicionY - i));
             } 
         }
         
@@ -95,8 +99,8 @@ public class Grafo {
             }
             
             if (addNodo(i, posicionY)) {
-                nodo.addArco(new Arco(listNodo.getLast()));
-                listNodo.get(listNodo.size()-1).addArco(new Arco(nodo));
+                nodo.addArco(new Arco(listNodo.getLast(), i - posicionX));
+                listNodo.get(listNodo.size()-1).addArco(new Arco(nodo, i - posicionX));
             } 
         }
         
@@ -112,8 +116,8 @@ public class Grafo {
             }
             
             if (addNodo(i, posicionY)) {
-                nodo.addArco(new Arco(listNodo.getLast()));
-                listNodo.get(listNodo.size()-1).addArco(new Arco(nodo));
+                nodo.addArco(new Arco(listNodo.getLast(), posicionX - i));
+                listNodo.get(listNodo.size()-1).addArco(new Arco(nodo, posicionX - i));
             }  
         }        
     }    
@@ -159,8 +163,8 @@ public class Grafo {
             int id = nodo.getNodoID();
             ArrayList<Arco> listArco = nodo.getListArco();
             for (int i = 0; i < listArco.size(); i++) {
-                matrizAdyacencia[id][listArco.get(i).getNodo().getNodoID()] = 1;
-            }            
+                matrizAdyacencia[id][listArco.get(i).getNodo().getNodoID()] = (int) nodo.getListArco().get(i).getPeso();
+            }
         }
     }
     

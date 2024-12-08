@@ -1,5 +1,7 @@
 package graphtheory;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author L
@@ -27,7 +29,22 @@ public class NewMain {
             }
             System.out.println(); 
         }
-
+        
+        buscarCaminoCorto(grafo.getListNodo().getFirst());
+    }
+    
+    public static void buscarCaminoCorto(Nodo nodo) {
+        ArrayList<Arco> nodoArrayList = nodo.getListArco();
+        int posicionX = nodo.getPosicionX();
+        int posicionY = nodo.getPosicionY();       
+        
+        
+        for (int i = 0; i < nodoArrayList.size(); i++) {
+            if (posicionX > nodoArrayList.get(i).getNodo().getPosicionX()) {
+                
+            }
+        }
+        return;
     }
     
 }

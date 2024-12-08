@@ -38,7 +38,7 @@ public class Laberinto {
     public int[][] getLaberinto() {
         return laberinto;
     }
-
+  
     public int getInicioX() {
         return inicioX;
     }
