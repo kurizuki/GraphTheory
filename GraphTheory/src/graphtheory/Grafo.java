@@ -51,109 +51,97 @@ public class Grafo {
         
         // MOVERSE ARRIBA
         for (int i = posicionY; i < matriz.length && matriz[i][posicionX] == 0; i++) {
-            // VALIDAR SI EN LA DERECHA HAY UN ESPACIO EN BLANCO
-            if (posicionX+1 < matriz[i].length && matriz[i][posicionX+1] == 0) {
-                if (addNodo(posicionX,i)) {
-                    nodo.addArco(new Arco(listNodo.getLast()));
-                    listNodo.get(listNodo.size()-1).addArco(new Arco(nodo));
-                }                                
+            // VALIDAR SI HAY ESPACIOS EN BLANCO AL COSTADO
+            if (!isVoidEjeY(posicionX, i)) {                                               
                 continue;
             }
-            // VALIDAR SI EN LA IZQUIERDA HAY UN ESPACIO EN BLANCO
-            if (posicionX-1 >= 0 && matriz[i][posicionX-1] == 0) {
-                if (addNodo(posicionX,i)) {
-                    nodo.addArco(new Arco(listNodo.getLast()));
-                    listNodo.get(listNodo.size()-1).addArco(new Arco(nodo));
-                } 
+            
+            if (!(i+1 < matriz.length && matriz[i+1][posicionX] == 1)) {
                 continue;
             }
-            if (i+1 < matriz.length && matriz[i+1][posicionX] == 1) {
-                if (addNodo(posicionX,i)) {
-                    nodo.addArco(new Arco(listNodo.getLast()));
-                    listNodo.get(listNodo.size()-1).addArco(new Arco(nodo));
-                } 
-            }
+            
+            if (addNodo(posicionX,i)) {
+                nodo.addArco(new Arco(listNodo.getLast()));
+                listNodo.get(listNodo.size()-1).addArco(new Arco(nodo));
+            } 
         }
         
         // MOVERSE ABAJO
         for (int i = posicionY; i >= 0 && matriz[i][posicionX] == 0; i--) {
-            // VALIDAR SI EN LA DERECHA HAY UN ESPACIO EN BLANCO
-            if (posicionX+1 < matriz[i].length && matriz[i][posicionX+1] == 0) {
-                if (addNodo(posicionX,i)) {
-                    nodo.addArco(new Arco(listNodo.getLast()));
-                    listNodo.get(listNodo.size()-1).addArco(new Arco(nodo));
-                } 
+            // VALIDAR SI HAY ESPACIOS EN BLANCO AL COSTADO
+            if (!isVoidEjeY(posicionX, i)) {                
                 continue;
             }
-            // VALIDAR SI EN LA IZQUIERDA HAY UN ESPACIO EN BLANCO
-            if (posicionX-1 >= 0 && matriz[i][posicionX-1] == 0) {
-                if (addNodo(posicionX,i)) {
-                    nodo.addArco(new Arco(listNodo.getLast()));
-                    listNodo.get(listNodo.size()-1).addArco(new Arco(nodo));
-                } 
+
+            if (!(i-1 >= 0 && matriz[i-1][posicionX] == 1)) {
                 continue;
             }
-            if (i-1 >= 0 && matriz[i-1][posicionX] == 1) {
-                if (addNodo(posicionX,i)) {
-                    nodo.addArco(new Arco(listNodo.getLast()));
-                    listNodo.get(listNodo.size()-1).addArco(new Arco(nodo));
-                } 
-            }
+            
+            if (addNodo(posicionX,i)) {
+                nodo.addArco(new Arco(listNodo.getLast()));
+                listNodo.get(listNodo.size()-1).addArco(new Arco(nodo));
+            } 
         }
         
         // MOVERSE DERECHA
         for (int i = posicionX; i < matriz[posicionY].length && matriz[posicionY][i] == 0; i++) {
-            // VALIDAR SI ARRIBA HAY UN ESPACIO EN BLANCO
-            if (posicionY + 1 < matriz.length && matriz[posicionY + 1][i] == 0) {
-                if (addNodo(i, posicionY)) {
-                    nodo.addArco(new Arco(listNodo.getLast()));
-                    listNodo.get(listNodo.size()-1).addArco(new Arco(nodo));
-                }                 
+            // VALIDAR SI HAY ESPACIOS EN BLANCO EN EL EJE Y
+            if (!isVoidEjeX(i, posicionY)) {                                
                 continue;
             }
-            // VALIDAR SI ABAJO HAY UN ESPACIO EN BLANCO
-            if (posicionY - 1 >= 0 && matriz[posicionY - 1][i] == 0) {
-                if (addNodo(i, posicionY)) {
-                    nodo.addArco(new Arco(listNodo.getLast()));
-                    listNodo.get(listNodo.size()-1).addArco(new Arco(nodo));
-                }  
+            
+            if (!(i + 1 < matriz[posicionY].length && matriz[posicionY][i + 1] == 1)) {
                 continue;
             }
-            if (i + 1 < matriz[posicionY].length && matriz[posicionY][i + 1] == 1) {
-                if (addNodo(i, posicionY)) {
-                    nodo.addArco(new Arco(listNodo.getLast()));
-                    listNodo.get(listNodo.size()-1).addArco(new Arco(nodo));
-                }  
-            }
+            
+            if (addNodo(i, posicionY)) {
+                nodo.addArco(new Arco(listNodo.getLast()));
+                listNodo.get(listNodo.size()-1).addArco(new Arco(nodo));
+            } 
         }
         
         // MOVERSE IZQUIERDA
         for (int i = posicionX; i >= 0 && matriz[posicionY][i] == 0; i--) {
-            // VALIDAR SI ARRIBA HAY UN ESPACIO EN BLANCO
-            if (posicionY+1 < matriz.length && matriz[posicionY+1][i] == 0) {
-                if (addNodo(i, posicionY)) {
-                    nodo.addArco(new Arco(listNodo.getLast()));
-                    listNodo.get(listNodo.size()-1).addArco(new Arco(nodo));
-                }  
+            // VALIDAR SI HAY ESPACIOS EN BLANCO EN EL EJE Y
+            if (!isVoidEjeX(i, posicionY)) {
                 continue;
             }
-            // VALIDAR SI ABAJO HAY UN ESPACIO EN BLANCO
-            if (posicionY-1 >= 0 && matriz[posicionY-1][i] == 0) {
-                if (addNodo(i, posicionY)) {
-                    nodo.addArco(new Arco(listNodo.getLast()));
-                    listNodo.get(listNodo.size()-1).addArco(new Arco(nodo));
-                }  
+            
+            if (!(i-1 >= 0 && matriz[posicionY][i-1] == 1)) {
                 continue;
             }
-            if (i-1 >= 0 && matriz[posicionY][i-1] == 1) {
-                if (addNodo(i, posicionY)) {
-                    nodo.addArco(new Arco(listNodo.getLast()));
-                    listNodo.get(listNodo.size()-1).addArco(new Arco(nodo));
-                }  
-            }
+            
+            if (addNodo(i, posicionY)) {
+                nodo.addArco(new Arco(listNodo.getLast()));
+                listNodo.get(listNodo.size()-1).addArco(new Arco(nodo));
+            }  
         }        
     }    
     
+    private boolean isVoidEjeY(int posicionX, int posicionY) {
+        // VALIDAR SI EN LA DERECHA HAY UN ESPACIO EN BLANCO
+        if (posicionX+1 < matriz[posicionY].length && matriz[posicionY][posicionX+1] == 0) {                              
+            return true;
+        }
+        // VALIDAR SI EN LA IZQUIERDA HAY UN ESPACIO EN BLANCO
+        if (posicionX-1 >= 0 && matriz[posicionY][posicionX-1] == 0) {
+            return true;
+        }
+        return false;
+    }
+    
+    private boolean isVoidEjeX(int posicionX, int posicionY) {
+        // VALIDAR SI ARRIBA HAY UN ESPACIO EN BLANCO
+        if (posicionY + 1 < matriz.length && matriz[posicionY + 1][posicionX] == 0) {
+            return true;
+        }
+        // VALIDAR SI ABAJO HAY UN ESPACIO EN BLANCO
+        if (posicionY - 1 >= 0 && matriz[posicionY - 1][posicionX] == 0) {
+            return true;
+        }
+        return false;
+    }
+        
     private boolean addNodo(int posicionX, int posicionY) {
         for (int i = 0; i < listNodo.size(); i++) {            
             if (listNodo.get(i).getPosicionX() == posicionX && listNodo.get(i).getPosicionY() == posicionY) {
