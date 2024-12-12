@@ -42,5 +42,23 @@ public class Nodo {
     public boolean addArco(Arco arco) {        
         return listArco.add(arco);
     }
+    
+    public static boolean equals(Nodo nodo1, Nodo nodo2) {
+        if (nodo1.getPosicionX() == nodo2.getPosicionX() && nodo1.getPosicionY() == nodo2.getPosicionY()) {
+            return true;
+        }
+        return false;
+    }
+    
+    public static boolean equals(Nodo nodo, int posicionX, int posicionY) {
+        if (posicionX == nodo.posicionX && posicionY == nodo.posicionY) {
+            return true;
+        }
+        return false;
+    }
 
+    @Override
+    public String toString() {
+        return "Nodo{" + "listArco=" + listArco + ", nodoID=" + nodoID + ", posicionX=" + posicionX + ", posicionY=" + posicionY + '}';
+    }
 }

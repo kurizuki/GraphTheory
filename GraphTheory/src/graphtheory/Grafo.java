@@ -21,9 +21,9 @@ public class Grafo {
     public Grafo() {
     }
 
-    public Grafo(int[][] matriz) {
+    public Grafo(int[][] matriz, int metaX, int metaY) {
         this.matriz = matriz;
-        crearGrafo(1, 1); 
+        crearGrafo(1, 1, metaX, metaY); 
     }
 
     public int[][] getMatrizAdyacencia() {
@@ -34,10 +34,9 @@ public class Grafo {
         return listNodo;
     }
 
-    private void crearGrafo(int inicioX, int inicioY) {
-        Nodo nodoInicial = new Nodo(listNodo.size(), inicioX, inicioY);
-        listNodo.add(nodoInicial);
-        
+    private void crearGrafo(int inicioX, int inicioY, int metaX, int metaY) {
+        addNodo(inicioX, inicioY);
+        addNodo(metaX, metaY);
         mapearNodos();
         calcularMatrizAdyacencia();
     }

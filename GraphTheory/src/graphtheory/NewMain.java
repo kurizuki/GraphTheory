@@ -10,12 +10,15 @@ public class NewMain {
     public static void main(String[] args) {        
         Laberinto laberinto = new Laberinto(13,13);
         laberinto.imprimirLaberinto();
-        Grafo grafo = new Grafo(laberinto.getLaberinto());       
+        Grafo grafo = new Grafo(laberinto.getLaberinto(), laberinto.getMetaX(), laberinto.getMetaY());       
         
         
         grafo.imprimirListNodos();    
+        System.out.println("");
+        System.out.println("META");
+        System.out.println("X: " + laberinto.getMetaX() + "     Y: " + laberinto.getMetaY());
         System.out.println("____________________________");
-        System.out.println("MATRIZ DE ADYACENCIA");
+        System.out.println("MATRIZ DE ADYACENCIA"); 
         System.out.println("");
         int[][] matrizAdyacencia = grafo.getMatrizAdyacencia();
         
@@ -28,23 +31,7 @@ public class NewMain {
                 }
             }
             System.out.println(); 
-        }
-        
-        buscarCaminoCorto(grafo.getListNodo().getFirst());
-    }
-    
-    public static void buscarCaminoCorto(Nodo nodo) {
-        ArrayList<Arco> nodoArrayList = nodo.getListArco();
-        int posicionX = nodo.getPosicionX();
-        int posicionY = nodo.getPosicionY();       
-        
-        
-        for (int i = 0; i < nodoArrayList.size(); i++) {
-            if (posicionX > nodoArrayList.get(i).getNodo().getPosicionX()) {
-                
-            }
-        }
-        return;
+        }        
     }
     
 }

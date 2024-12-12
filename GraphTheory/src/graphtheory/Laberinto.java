@@ -6,7 +6,7 @@ import java.util.Random;
  *
  * @author L
  */
-public class Laberinto {
+public final class Laberinto {
     private final Random random = new Random();    
     private final int MURO = 1;
     private final int CAMINO = 0;
@@ -109,7 +109,7 @@ public class Laberinto {
         metaX = random.nextInt(filas -2) + 1;
         metaY = random.nextInt(columnas -2) + 1;
 
-        laberinto[metaX][metaY] = 0;                
+        laberinto[metaY][metaX] = 0;                
     }
      
     public void imprimirLaberinto() {
