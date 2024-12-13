@@ -56,6 +56,26 @@ public class Nodo {
         }
         return false;
     }
+    
+    public static String getDireccionEntreNodos(Nodo origen, Nodo destino) {
+        // NORTE
+        if (origen.getPosicionY() < destino.getPosicionY()) {
+            return "Norte";
+        }
+        // SUR
+        if (origen.getPosicionY() > destino.getPosicionY()) {
+            return "Sur";
+        }
+        // ESTE
+        if (origen.getPosicionX() < destino.getPosicionX()) {
+            return "Este";
+        }
+        // OESTE
+        if (origen.getPosicionX() > destino.getPosicionX()) {
+            return "Oeste";
+        }
+        return "";
+    }
 
     @Override
     public String toString() {

@@ -24,6 +24,7 @@ public class CaminoDerecha {
         this.inicioY = inicioY;
         
         buscarCaminoCorto(listNodo.getFirst());
+        imprimirLista();
     }
     
     private int numVisted = 0;
@@ -34,7 +35,8 @@ public class CaminoDerecha {
             numVisted = 0;
         }
         if (numVisted==2) {
-            numVisted = 0;
+            System.out.println("HUY NO MI CHAMO");
+            numVisted = 0;            
             return;
         }
         
@@ -43,6 +45,7 @@ public class CaminoDerecha {
         int posicionY = nodo.getPosicionY();
         
         if (metaX == posicionX && metaY == posicionY) {
+            System.out.println("llegamos a la meta mi chamo");
             caminosPosibles.add(listNodosVisitados);
             return;
         } 
@@ -51,37 +54,105 @@ public class CaminoDerecha {
         
         Nodo nodoDerecho = null;
         Nodo nodoIzquierdo = null;
-        Nodo nodoArriba = null;
+        Nodo nodoFrente = null;
         
         for (Arco arco : arcoList) {
-            Nodo nodoArco = arco.getNodo();
-            // SI EL NODO ESTA A LA DERECHA
-            if (posicionX < nodoArco.getPosicionX()) {
-                nodoDerecho = nodoArco;
-                System.out.println("DERECJO");
-                continue;
+            Nodo nodoOfArco = arco.getNodo();   
+            String direccion = "";
+            if (listNodosVisitados.size() >= 2) {
+                direccion = Nodo.getDireccionEntreNodos(listNodosVisitados.get(listNodosVisitados.size()-2), nodo);                
+            } else {
+                direccion = Nodo.getDireccionEntreNodos(nodo, nodoOfArco);
             }
-            // SI EL NODO ESTA ARRIBA          
-            if (posicionY < nodoArco.getPosicionY()) {
-                nodoArriba = nodoArco;
-                System.out.println("ARRIBA");
-                continue;
-            }
-            // SI EL NODO ESTA A LA IZQUIERDA            
-            if (posicionX > nodoArco.getPosicionX()) {
-                nodoIzquierdo = nodoArco;
-                System.out.println("IZQUIERDA");
-            }  
-        }     
+            
+            switch (direccion) {
+                case "Norte" -> {
+                    // SI EL NODO ESTA A LA DERECHA
+                    if (posicionX < nodoOfArco.getPosicionX()) {
+                        nodoDerecho = nodoOfArco;
+                        continue;
+                    }
+                    // SI EL NODO ESTA AL FRENTE            
+                    if (posicionY < nodoOfArco.getPosicionY()) {
+                        nodoFrente = nodoOfArco;
+                        continue;
+                    }
+                    // SI EL NODO ESTA A LA IZQUIERDA            
+                    if (posicionX > nodoOfArco.getPosicionX()) {
+                        nodoIzquierdo = nodoOfArco;
+                    }  
+                }
+                case "Sur" -> {
+                    // SI EL NODO ESTA A LA DERECHA
+                    if (posicionX > nodoOfArco.getPosicionX()) {
+                        nodoDerecho = nodoOfArco;
+                        continue;
+                    }
+                    // SI EL NODO AL FRENTE          
+                    if (posicionY > nodoOfArco.getPosicionY()) {
+                        nodoFrente = nodoOfArco;
+                        continue;
+                    }
+                    // SI EL NODO ESTA A LA IZQUIERDA            
+                    if (posicionX < nodoOfArco.getPosicionX()) {
+                        nodoIzquierdo = nodoOfArco;
+                    }  
+                }
+                case "Este" -> {
+                    // SI EL NODO ESTA A LA DERECHA
+                    if (posicionY > nodoOfArco.getPosicionY()) {
+                        nodoDerecho = nodoOfArco;
+                        continue;
+                    }
+                    // SI EL NODO ESTA AL FRENTE          
+                    if (posicionX < nodoOfArco.getPosicionX()) {
+                        nodoFrente = nodoOfArco;
+                        continue;
+                    }
+                    // SI EL NODO ESTA A LA IZQUIERDA            
+                    if (posicionY < nodoOfArco.getPosicionY()) {
+                        nodoIzquierdo = nodoOfArco;
+                    } 
+                }
+                case "Oeste" -> {
+                    // SI EL NODO ESTA A LA DERECHA
+                    if (posicionY < nodoOfArco.getPosicionY()) {
+                        nodoDerecho = nodoOfArco;
+                        continue;
+                    }
+                    // SI EL NODO ESTA AL FRENTE          
+                    if (posicionX > nodoOfArco.getPosicionX()) {
+                        nodoFrente = nodoOfArco;
+                        continue;
+                    }
+                    // SI EL NODO ESTA A LA IZQUIERDA            
+                    if (posicionY > nodoOfArco.getPosicionY()) {
+                        nodoIzquierdo = nodoOfArco;
+                    } 
+                }
+                default -> {
+                    throw new AssertionError();
+                }                
+            }            
+        }        
         
         // ORDEN DE PRIORIDADES
-        buscarCaminoCorto(nodoArriba);
-        buscarCaminoCorto(nodoDerecho);
-        buscarCaminoCorto(nodoIzquierdo);
+        if (nodoFrente != null) {
+            buscarCaminoCorto(nodoFrente);
+            listNodosVisitados.removeLast();
+        }
+        if (nodoDerecho != null) {
+            buscarCaminoCorto(nodoDerecho);
+            listNodosVisitados.removeLast();
+        }
+        if (nodoIzquierdo != null) {
+            buscarCaminoCorto(nodoIzquierdo);
+            listNodosVisitados.removeLast();
+        }        
     }
     
-    private void marcaDireccion() {
-        
+    private void imprimirLista() {
+        System.out.println("NUM CAMINOS POSIBLES " + caminosPosibles.size());
     }
     
     private boolean isNodoVisited(Nodo nodo) {

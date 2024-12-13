@@ -115,7 +115,7 @@ public final class Laberinto {
     public void imprimirLaberinto() {
         // □
         // FILAS 
-        for (int i = 0; i < laberinto.length; i++) {
+        for (int i = laberinto.length-1; i >= 0; i--) {
             // COLUMNAS
             if (i < 10) {
                 System.out.print(i + "  ");

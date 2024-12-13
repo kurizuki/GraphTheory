@@ -33,10 +33,11 @@ public class Grafo {
     public ArrayList<Nodo> getListNodo() {
         return listNodo;
     }
-
+    private int metaX, metaY;    
     private void crearGrafo(int inicioX, int inicioY, int metaX, int metaY) {
-        addNodo(inicioX, inicioY);
-        addNodo(metaX, metaY);
+        this.metaX = metaX;
+        this.metaY = metaY;        
+        addNodo(inicioX, inicioY);        
         mapearNodos();
         calcularMatrizAdyacencia();
     }
@@ -54,6 +55,12 @@ public class Grafo {
         
         // MOVERSE ARRIBA
         for (int i = posicionY; i < matriz.length && matriz[i][posicionX] == 0; i++) {
+            if (posicionX == metaX && i == metaY) {
+                if (addNodo(posicionX,i)) {
+                    nodo.addArco(new Arco(listNodo.getLast(), i - posicionY));
+                    listNodo.get(listNodo.size()-1).addArco(new Arco(nodo, i - posicionY));
+                } 
+            }
             // VALIDAR SI HAY ESPACIOS EN BLANCO AL COSTADO
             if (!isVoidEjeY(posicionX, i)) {                                               
                 continue;
@@ -62,7 +69,7 @@ public class Grafo {
             if (!(i+1 < matriz.length && matriz[i+1][posicionX] == 1)) {
                 continue;
             }
-            
+             
             if (addNodo(posicionX,i)) {
                 nodo.addArco(new Arco(listNodo.getLast(), i - posicionY));
                 listNodo.get(listNodo.size()-1).addArco(new Arco(nodo, i - posicionY));
@@ -71,6 +78,12 @@ public class Grafo {
         
         // MOVERSE ABAJO
         for (int i = posicionY; i >= 0 && matriz[i][posicionX] == 0; i--) {
+            if (posicionX == metaX && i == metaY) {
+                if (addNodo(posicionX,i)) {
+                    nodo.addArco(new Arco(listNodo.getLast(), posicionY - i));
+                    listNodo.get(listNodo.size()-1).addArco(new Arco(nodo, posicionY - i));
+                }  
+            }
             // VALIDAR SI HAY ESPACIOS EN BLANCO AL COSTADO
             if (!isVoidEjeY(posicionX, i)) {                
                 continue;
@@ -83,11 +96,17 @@ public class Grafo {
             if (addNodo(posicionX,i)) {
                 nodo.addArco(new Arco(listNodo.getLast(), posicionY - i));
                 listNodo.get(listNodo.size()-1).addArco(new Arco(nodo, posicionY - i));
-            } 
+            }          
         }
         
         // MOVERSE DERECHA
         for (int i = posicionX; i < matriz[posicionY].length && matriz[posicionY][i] == 0; i++) {
+            if (posicionY == metaY && i == metaX) {
+                if (addNodo(i, posicionY)) {
+                    nodo.addArco(new Arco(listNodo.getLast(), i - posicionX));
+                    listNodo.get(listNodo.size()-1).addArco(new Arco(nodo, i - posicionX));
+                }
+            }
             // VALIDAR SI HAY ESPACIOS EN BLANCO EN EL EJE Y
             if (!isVoidEjeX(i, posicionY)) {                                
                 continue;
@@ -105,6 +124,12 @@ public class Grafo {
         
         // MOVERSE IZQUIERDA
         for (int i = posicionX; i >= 0 && matriz[posicionY][i] == 0; i--) {
+            if (posicionY == metaY && i == metaX) {
+                if (addNodo(i, posicionY)) {
+                    nodo.addArco(new Arco(listNodo.getLast(), posicionX - i));
+                    listNodo.get(listNodo.size()-1).addArco(new Arco(nodo, posicionX - i));
+                }   
+            }
             // VALIDAR SI HAY ESPACIOS EN BLANCO EN EL EJE Y
             if (!isVoidEjeX(i, posicionY)) {
                 continue;
@@ -117,7 +142,7 @@ public class Grafo {
             if (addNodo(i, posicionY)) {
                 nodo.addArco(new Arco(listNodo.getLast(), posicionX - i));
                 listNodo.get(listNodo.size()-1).addArco(new Arco(nodo, posicionX - i));
-            }  
+            }           
         }        
     }    
     
