@@ -42,11 +42,11 @@ public class Grafo {
         calcularMatrizAdyacencia();
     }
     
-    private void mapearNodos() {               
+    private void mapearNodos() {     
         for (int i = 0; i < listNodo.size(); i++) {
             numIteraciones++;
             mapearNodosAdyacentes(listNodo.get(i));
-        } 
+        }      
     }
     
     private void mapearNodosAdyacentes(Nodo nodo) {

@@ -12,6 +12,8 @@ public class CaminoDerecha {
     private ArrayList<ArrayList<Nodo>> caminosPosibles = new  ArrayList<>();
     private int metaX, metaY;
     private int inicioX, inicioY;
+    
+    private int caminoPosibles=0;
 
     public CaminoDerecha() {
     }
@@ -45,8 +47,8 @@ public class CaminoDerecha {
         int posicionY = nodo.getPosicionY();
         
         if (metaX == posicionX && metaY == posicionY) {
-            System.out.println("llegamos a la meta mi chamo");
-            caminosPosibles.add(listNodosVisitados);
+            ArrayList<Nodo> auxiliar = new ArrayList<>(listNodosVisitados);
+            caminosPosibles.add(auxiliar);
             return;
         } 
         
@@ -150,8 +152,13 @@ public class CaminoDerecha {
             listNodosVisitados.removeLast();
         }        
     }
-    
+
+    public int getCaminoPosibles() {
+        return caminoPosibles;
+    }
+
     private void imprimirLista() {
+        caminoPosibles = caminosPosibles.size();
         System.out.println("NUM CAMINOS POSIBLES " + caminosPosibles.size());
     }
     
@@ -162,5 +169,25 @@ public class CaminoDerecha {
             }
         }
         return false;
+    }
+    public void imprimirListaCaminos() {
+        int i = 0;
+        for (ArrayList<Nodo> camino : caminosPosibles) {
+            i++;
+            System.out.println("");
+            System.out.println("CAMINO POSIBLE  " + i);
+            System.out.println("_________________");
+            for (Nodo nodo : camino) {
+                System.out.print(nodo.getNodoID() + " ");
+                System.out.printf("%-4s %-8s", "X:" + nodo.getPosicionX(), "Y:" + nodo.getPosicionY());
+                System.out.print(" | ");
+
+                if (nodo.getNodoID()%3==0) {
+                    System.out.println();
+                }
+            }
+            
+            System.out.println();  // Nueva línea después de cada camino
+        }
     }
 }
